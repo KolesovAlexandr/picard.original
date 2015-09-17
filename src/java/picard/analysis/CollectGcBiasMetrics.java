@@ -76,7 +76,7 @@ public class CollectGcBiasMetrics extends SinglePassSamProgram {
     @Option(shortName = "CHART", doc = "The PDF file to render the chart to.")
     public File CHART_OUTPUT;
 
-    @Option(shortName = "S", doc = "The text file to write summary metrics to.", optional = true)
+    @Option(shortName = "S", doc = "The text file to write summary metrics to.")
     public File SUMMARY_OUTPUT;
 
     @Option(doc = "The size of windows on the genome that are used to bin reads.")
@@ -120,8 +120,7 @@ public class CollectGcBiasMetrics extends SinglePassSamProgram {
     @Override
     protected void setup(final SAMFileHeader header, final File samFile) {
         IOUtil.assertFileIsWritable(CHART_OUTPUT);
-
-        if (SUMMARY_OUTPUT != null) IOUtil.assertFileIsWritable(SUMMARY_OUTPUT);
+        IOUtil.assertFileIsWritable(SUMMARY_OUTPUT);
 
         IOUtil.assertFileIsReadable(REFERENCE_SEQUENCE);
 
@@ -168,7 +167,7 @@ public class CollectGcBiasMetrics extends SinglePassSamProgram {
             summaryMetricsFile.addMetric(gcbm.SUMMARY);
         }
         detailMetricsFile.write(OUTPUT);
-        if (SUMMARY_OUTPUT != null) summaryMetricsFile.write(SUMMARY_OUTPUT);
+        summaryMetricsFile.write(SUMMARY_OUTPUT);
 
         final NumberFormat fmt = NumberFormat.getIntegerInstance();
         fmt.setGroupingUsed(true);
